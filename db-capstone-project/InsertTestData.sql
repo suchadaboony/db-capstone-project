@@ -49,4 +49,48 @@
 -- VALUES (3,5,120,3)
 -- ---- -------------------------
 
+-- ---- -------------------------
+INSERT INTO LittleLemonDB.Address(AddressLine1, AddressLine2, City, Postcode)
+VALUES('123 First Street', '', 'Richmond', 1234)
+,('343 Second Street', '', 'Brighton', 3433)
+,('33 Third Street', '', 'Frankston', 2323)
+,('34 Mayland Street', '', 'Brighton', 1111)
+,('34 Thomson Street', '', 'Chelsea', 3443)
+,('4 James Street', '', 'Richmond', 1111)
+,('5 Love Street', '', 'Richmond', 3333)
+,('333 Third Street', '', 'Frankston', 2323)
+,('344 Mayland Street', '', 'Brighton', 1111)
+,('534 Tessy Street', '', 'Chelsea', 3443)
+,('47 Spring Street', '', 'Richmond', 1111)
+,('58 Lovely Street', '', 'Richmond', 3333);
+-- ---- --------------------------- 
+-- select * from LittleLemonDB.Address;
 
+-- MOre customer
+INSERT INTO LittleLemonDB.Customers( FirstName, LastName, ContactNo, Email, AddressID)
+VALUES 
+('Tess', 'Hobs', 66667645, 'thob@email.com', 4)
+,('Dasie','Pink', 69626122, 'dpinkk@email.com', 5)
+,('Bart', 'Simsons', 77765433, 'bsimson@email.com',6); 
+
+-- ---- -------------------------
+INSERT INTO LittleLemonDB.Employees (EmployeeID, FirstName, Lastname, Role, Salary, ContactNo, Email,AddressID) 
+VALUES 
+(1, 'Sam', 'Young','Manager',80000,92974444,'syoung@email.com',7)
+,(2, 'Jo', 'Boyd','Chef',100000,22346786,'jboyd@email.com',8)
+,(3, 'Bob', 'Smith','Chef',80000,33443422,'bsmith@email.com',9)
+,(4, 'Marissa', 'Jones','Waitress',69000,65543444,'mjones@email.com',10)
+,(5, 'Jackson', 'Phil','Waiter',69000,44556677,'jphil@email.com',11); 
+
+
+-- ---- --------------------------- 
+
+-- ---- --------------------------- 
+INSERT INTO LittleLemonDB.Bookings (BookingID, TableNo, BookingSlot, EmployeeID, CustomerID)
+VALUES 
+(1, 5, '2022-10-10 18:00:00', 4,1)
+,(2,3, '2022-11-12 18:30:00', 5,3)
+,(3,2, '2022-10-11 20:00:00', 4,2)
+,(4,2, '2022-10-13 19:00:00', 5,1); 
+
+-- -- -------------------------
