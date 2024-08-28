@@ -32,11 +32,11 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `LittleLemonDB`.`Customers` (
   `CustomerID` INT NOT NULL AUTO_INCREMENT,
-  `FirstName` VARCHAR(45) NOT NULL,
-  `LastName` VARCHAR(45) NOT NULL,
-  `ContactNo` INT NOT NULL,
-  `Email` VARCHAR(100) NOT NULL,
-  `AddressID` INT NOT NULL,
+  `FirstName` VARCHAR(50) NULL,
+  `LastName` VARCHAR(50) NULL,
+  `ContactNo` INT NULL,
+  `Email` VARCHAR(100) NULL,
+  `AddressID` INT NULL,
   PRIMARY KEY (`CustomerID`),
   INDEX `Cus_Address_FK_idx` (`AddressID` ASC) VISIBLE,
   CONSTRAINT `Cus_Address_FK`
@@ -102,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `LittleLemonDB`.`Orders` (
   `OrderDate` DATETIME NOT NULL,
   `TotalCost` DECIMAL(10,2) NOT NULL,
   `DeliveryCost` DECIMAL(10,2) NOT NULL,
-  `DeliveryStatus` VARCHAR(45) NOT NULL DEFAULT 'Pending' COMMENT 'Pending, Delivered, Cancelled',
+  `DeliveryStatus` VARCHAR(50) NOT NULL DEFAULT 'Pending' COMMENT 'Pending, Delivered, Cancelled',
   `DeliveryDate` DATETIME NULL,
   `CustomerID` INT NOT NULL,
   PRIMARY KEY (`OrderID`),
@@ -119,11 +119,11 @@ ENGINE = InnoDB;
 -- Table `LittleLemonDB`.`MenuItems`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `LittleLemonDB`.`MenuItems` (
-  `MenuItemsID` INT NOT NULL AUTO_INCREMENT,
+  `MenuItemID` INT NOT NULL AUTO_INCREMENT,
   `CourseName` VARCHAR(50) NOT NULL COMMENT 'starters, courses, drinks and desserts',
   `StarterName` VARCHAR(50) NOT NULL,
   `DesertName` VARCHAR(50) NOT NULL,
-  PRIMARY KEY (`MenuItemsID`))
+  PRIMARY KEY (`MenuItemID`))
 ENGINE = InnoDB;
 
 
@@ -141,7 +141,7 @@ CREATE TABLE IF NOT EXISTS `LittleLemonDB`.`Menus` (
   INDEX `MenuItemID_FK_idx` (`MenuItemID` ASC) VISIBLE,
   CONSTRAINT `MenuItemID_FK`
     FOREIGN KEY (`MenuItemID`)
-    REFERENCES `LittleLemonDB`.`MenuItems` (`MenuItemsID`)
+    REFERENCES `LittleLemonDB`.`MenuItems` (`MenuItemID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -169,6 +169,25 @@ CREATE TABLE IF NOT EXISTS `LittleLemonDB`.`OrderMenuItems` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+USE `LittleLemonDB` ;
+
+-- -----------------------------------------------------
+-- Placeholder table for view `LittleLemonDB`.`OrderView`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `LittleLemonDB`.`OrderView` (`OrderID` INT, `Quantity` INT, `Cost` INT);
+
+-- -----------------------------------------------------
+-- View `LittleLemonDB`.`OrderView`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `LittleLemonDB`.`OrderView`;
+USE `LittleLemonDB`;
+CREATE  OR REPLACE VIEW OrderView AS
+SELECT Orders.OrderID, SUM(Quantity) AS Quantity, TotalCost AS Cost
+FROM LittleLemonDB.Orders
+INNER JOIN LittleLemonDB.OrderMenuItems
+ON Orders.OrderID = OrderMenuItems.OrderID
+GROUP BY Orders.OrderID, Orders.TotalCost
+HAVING SUM(Quantity) > 2;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
